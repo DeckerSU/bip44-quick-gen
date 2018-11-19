@@ -1,4 +1,5 @@
 #include <bitcoin/bitcoin.hpp>
+//#include <bitcoin/bitcoin/utility/pseudo_random.hpp>
 #include <boost/format.hpp>
 #include <boost/algorithm/string.hpp>
 #include "coin_data.h"
@@ -68,7 +69,11 @@ int main(int argc, char* argv[]) {
         auto payment_addr = pv_key.to_payment_address();
 
         //std::cout << boost::format("m/%d'/%d'/%d'/%d/%d: %s %s") % BIP_NUMBER % (coin.bip44_id - wallet::hd_first_hardened_key) % 0 % 0 % i % payment_addr.encoded() % pv_key.encoded() << std::endl;
-        std::cout << boost::format("./komodo-cli importprivkey \"%s\" \"\" false # m/%d'/%d'/%d'/%d/%d: %s") % pv_key.encoded() % BIP_NUMBER % (coin.bip44_id - wallet::hd_first_hardened_key) % 0 % 0 % i % payment_addr.encoded() << std::endl;
+		#if defined(_MSC_VER) && defined(_WIN32)
+		std::cout << boost::format("komodo-cli.exe importprivkey \"%s\" \"\" false \nrem m/%d'/%d'/%d'/%d/%d: %s") % pv_key.encoded() % BIP_NUMBER % (coin.bip44_id - wallet::hd_first_hardened_key) % 0 % 0 % i % payment_addr.encoded() << std::endl;
+		#else
+		std::cout << boost::format("./komodo-cli importprivkey \"%s\" \"\" false # m/%d'/%d'/%d'/%d/%d: %s") % pv_key.encoded() % BIP_NUMBER % (coin.bip44_id - wallet::hd_first_hardened_key) % 0 % 0 % i % payment_addr.encoded() << std::endl;
+		#endif
     }
 
     std::cout << std::endl;
